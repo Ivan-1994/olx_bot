@@ -50,8 +50,8 @@ try:
         pass
     sleep(5)
     """
-   #   data-cy="page-link-next"
-    # Тестовый код
+    
+    # Код парсинга ссылок объявлений и перехода по ним, сбора номеров телефонов
     link = 'https://www.olx.ua/zapchasti-dlya-transporta/avtozapchasti-i-aksessuary/q-toyota-mark'
     list_links = []
     browser.get(link)
