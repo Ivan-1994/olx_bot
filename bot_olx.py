@@ -39,7 +39,7 @@ try:
 
     # Ввод текста для поиска
     input_serch = browser.find_element_by_id('headerSearch')
-    input_serch.send_keys('sdfsdfhdfhh')
+    input_serch.send_keys('mark')
     input_serch.submit()
     
     # Страница поиска
@@ -50,6 +50,22 @@ try:
         pass
     sleep(5)
     """
+   #   data-cy="page-link-next"
+    # Тестовый код
+    link = 'https://www.olx.ua/zapchasti-dlya-transporta/q-mark/'
+    browser.get(link)
+    list_links = browser.find_elements_by_xpath('//*[@id="offers_table"]//*[@class="space rel"]//a')
+    try:
+        while True:
+            browser.find_element_by_xpath('//*[@class="fbold next abs large"]//*[@data-cy="page-link-next"]').click()
+            list_links.append(browser.find_elements_by_xpath('//*[@id="offers_table"]//*[@class="space rel"]//a'))
+    except:
+        pass
+
+    # for i in list_links:
+    #     print(i.get_attribute('href'))
+    print(list_links.__len__())
+    sleep(10)
     browser.close()
 except Exception as a:
     browser.close()
