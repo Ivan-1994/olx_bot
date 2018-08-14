@@ -52,19 +52,32 @@ try:
     """
    #   data-cy="page-link-next"
     # Тестовый код
-    link = 'https://www.olx.ua/zapchasti-dlya-transporta/q-mark/'
+    link = 'https://www.olx.ua/zapchasti-dlya-transporta/avtozapchasti-i-aksessuary/q-toyota-mark'
+    list_links = []
     browser.get(link)
-    list_links = browser.find_elements_by_xpath('//*[@id="offers_table"]//*[@class="space rel"]//a')
-    try:
-        while True:
-            browser.find_element_by_xpath('//*[@class="fbold next abs large"]//*[@data-cy="page-link-next"]').click()
-            list_links.append(browser.find_elements_by_xpath('//*[@id="offers_table"]//*[@class="space rel"]//a'))
-    except:
-        pass
 
-    # for i in list_links:
-    #     print(i.get_attribute('href'))
-    print(list_links.__len__())
+    for i in range(1, 300):
+        if i > 1:
+            try:
+                next_page = browser.find_element_by_xpath(
+                    '//*[@class="pager rel clr"]//*[@class="fbold next abs large"]//a')
+                browser.get(next_page.get_attribute('href'))
+            except:
+                break
+
+        links_page = browser.find_elements_by_xpath("//*[@class='marginright5 link linkWithHash detailsLink']")
+
+        for j in links_page:
+            list_links.append(j.get_attribute('href'))
+
+    for i in list_links:
+        browser.get(i)
+        element_phone = browser.find_elements_by_xpath('//*[@id="contact_methods"]/li[2]/div/span')
+        if element_phone:
+            element_phone[0].click()
+            sleep(2)
+            phone = browser.find_elements_by_xpath('//*[@id="contact_methods"]/li[2]/div/strong')
+            print(phone[0].text)
     sleep(10)
     browser.close()
 except Exception as a:
