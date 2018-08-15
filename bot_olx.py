@@ -4,11 +4,9 @@ from time import sleep
 import os
 
 
-browser = Chrome(os.path.join(os.getcwd(), 'chromedriver'))
-link = 'https://www.olx.ua/'
-browser.get(link)
+"""
 try:
-    """
+    
     # Выбор категории поиска
     main_category = browser.find_elements_by_xpath('//*[@class="maincategories"]//*[@class="maincategories-list clr"]//a')
     id_category = [i.get_attribute('data-id') for i in main_category]
@@ -37,11 +35,23 @@ try:
     browser.find_element_by_xpath('//*[@data-id=' + id_sub_reg[0] + ']').click()
     sleep(10)
 
+    
+except Exception as a:
+    browser.close()
+    print(a)
+"""
+
+
+
+def olx_serch(text_serch):
+    browser = Chrome(os.path.join(os.getcwd(), 'chromedriver'))
+    link = 'https://www.olx.ua/'
+    browser.get(link)
     # Ввод текста для поиска
     input_serch = browser.find_element_by_id('headerSearch')
-    input_serch.send_keys('mark')
+    input_serch.send_keys(text_serch)
     input_serch.submit()
-    
+
     # Страница поиска
     try:
         not_found = browser.find_element_by_xpath('//*[@id="body-container"]/div[2]/div/div[2]')
@@ -49,13 +59,12 @@ try:
     except:
         pass
     sleep(5)
-    """
-    
     # Код парсинга ссылок объявлений и перехода по ним, сбора номеров телефонов
+    """
     link = 'https://www.olx.ua/zapchasti-dlya-transporta/avtozapchasti-i-aksessuary/q-toyota-mark'
-    list_links = []
     browser.get(link)
-
+    """
+    list_links = []
     for i in range(1, 300):
         if i > 1:
             try:
@@ -80,6 +89,3 @@ try:
             print(phone[0].text)
     sleep(10)
     browser.close()
-except Exception as a:
-    browser.close()
-    print(a)
