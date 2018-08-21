@@ -43,12 +43,19 @@ except Exception as a:
 
 
 
-def olx_serch(text_serch):
+def olx_serch(text_serch, choice_categories):
     browser = Chrome(os.path.join(os.getcwd(), 'chromedriver'))
     link = 'https://www.olx.ua/'
     browser.get(link)
+    sleep(2)
+    # Выбор категории
+    browser.find_element_by_xpath('//*[@data-id=' + choice_categories[0] + ']').click()
+    sleep(2)
+    # Выбор подкатегории
+    browser.find_element_by_xpath('//*[@data-id=' + choice_categories[1] + ']').click()
+    sleep(2)
     # Ввод текста для поиска
-    input_serch = browser.find_element_by_id('headerSearch')
+    input_serch = browser.find_element_by_id('search-text')
     input_serch.send_keys(text_serch)
     input_serch.submit()
 
