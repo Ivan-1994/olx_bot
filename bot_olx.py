@@ -48,23 +48,31 @@ def olx_serch(text_serch, choice_categories, choice_region):
     link = 'https://www.olx.ua/'
     browser.get(link)
     sleep(2)
-    browser.find_element_by_id('cityField').click()
-    sleep(1)
-    # Выбор области
-    browser.find_element_by_xpath('//*[@data-id=' + choice_region[0] + ']').click()
-    sleep(2)
-    # Выбор города
-    browser.find_element_by_xpath('//*[@data-id=' + choice_region[1] + ']').click()
-    sleep(2)
-
-    # Выбор категории
-    browser.find_element_by_xpath('//*[@data-id=' + choice_categories[0] + ']').click()
-    sleep(2)
-    # Выбор подкатегории
-    browser.find_element_by_xpath('//*[@data-id=' + choice_categories[1] + ']').click()
-    sleep(2)
+    if choice_region:
+        browser.find_element_by_id('cityField').click()
+        sleep(1)
+        # Выбор области
+        browser.find_element_by_xpath('//*[@data-id=' + choice_region[0] + ']').click()
+        sleep(2)
+        # Выбор города
+        browser.find_element_by_xpath('//*[@data-id=' + choice_region[1] + ']').click()
+        sleep(2)
+    if choice_categories:
+        # Выбор категории
+        browser.find_element_by_xpath('//*[@data-id=' + choice_categories[0] + ']').click()
+        sleep(2)
+        # Выбор подкатегории
+        browser.find_element_by_xpath('//*[@data-id=' + choice_categories[1] + ']').click()
+        sleep(2)
+    if not text_serch:
+        text_serch = ' '
+        print('1')
     # Ввод текста для поиска
-    input_serch = browser.find_element_by_id('search-text')
+    print(len(text_serch))
+    try:
+        input_serch = browser.find_element_by_id('search-text')
+    except:
+        input_serch = browser.find_element_by_id('headerSearch')
     input_serch.send_keys(text_serch)
     input_serch.submit()
 
