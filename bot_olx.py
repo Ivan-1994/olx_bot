@@ -2,7 +2,7 @@ from threading import Thread
 from selenium.webdriver import Chrome
 from time import sleep
 import os
-
+from datetime import datetime
 
 """
 try:
@@ -44,6 +44,7 @@ except Exception as a:
 
 
 def olx_serch(text_serch, choice_categories, choice_region):
+    name = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     browser = Chrome(os.path.join(os.getcwd(), 'chromedriver'))
     link = 'https://www.olx.ua/'
     browser.get(link)
@@ -66,9 +67,8 @@ def olx_serch(text_serch, choice_categories, choice_region):
         sleep(2)
     if not text_serch:
         text_serch = ' '
-        print('1')
+
     # Ввод текста для поиска
-    print(len(text_serch))
     try:
         input_serch = browser.find_element_by_id('search-text')
     except:
@@ -84,10 +84,6 @@ def olx_serch(text_serch, choice_categories, choice_region):
         pass
     sleep(5)
     # Код парсинга ссылок объявлений и перехода по ним, сбора номеров телефонов
-    """
-    link = 'https://www.olx.ua/zapchasti-dlya-transporta/avtozapchasti-i-aksessuary/q-toyota-mark'
-    browser.get(link)
-    """
     list_links = []
     for i in range(1, 300):
         if i > 1:
@@ -103,6 +99,8 @@ def olx_serch(text_serch, choice_categories, choice_region):
         for j in links_page:
             list_links.append(j.get_attribute('href'))
 
+    phone_file = open('phone numbers ' + name + '.txt', 'w')
+
     for i in list_links:
         browser.get(i)
         element_phone = browser.find_elements_by_xpath('//*[@id="contact_methods"]/li[2]/div/span')
@@ -110,6 +108,20 @@ def olx_serch(text_serch, choice_categories, choice_region):
             element_phone[0].click()
             sleep(2)
             phone = browser.find_elements_by_xpath('//*[@id="contact_methods"]/li[2]/div/strong')
-            print(phone[0].text)
+            a = str(phone[0].text)
+            # Разбиение номера
+            a = a.replace(' ', '')
+            while a:
+                if a.startswith('+38'):
+                    a = a[3:]
+                if a.startswith('38'):
+                    a = a[2:]
+                if a.startswith('00'):
+                    a = a[1:]
+                phone_file.write(a[:10] + '\n')
+                a = a[10:]
+
     sleep(10)
+    phone_file.close()
     browser.close()
+ # toyota mark 2

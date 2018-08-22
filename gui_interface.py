@@ -1,8 +1,8 @@
-from olx_bot.bot_olx import olx_serch
+from bot_olx import olx_serch
 import sys
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit,
     QGridLayout, QApplication, QPushButton, QListWidget)
-from olx_bot.db_dict import categories, region_ua
+from db_dict import categories, region_ua
 
 class Example(QWidget):
 
@@ -68,8 +68,7 @@ class Example(QWidget):
         selected = [item.text() for item in self.list_region_Widget.selectedItems()]
         self.list_sub_region_Widget.clear()
         self.list_sub_region_Widget.addItems(region_ua[selected[0]][1])
-        print(region_ua[selected[0]][1])
-
+        
     def choice_list_sub_region(self):
         selected = [item.text() for item in self.list_region_Widget.selectedItems()]
         sub_selected = [item.text() for item in self.list_sub_region_Widget.selectedItems()]
@@ -92,6 +91,7 @@ class Example(QWidget):
 
     def buttonClicked(self):
         olx_serch(self.titleEdit.text(), self.choice_categories, self.choice_region)
+
 
 if __name__ == '__main__':
 
